@@ -1,6 +1,6 @@
+""" Checks instagram's website for existing user names.
 """
-Checks instagram's website for existing user names.
-"""
+
 import requests
 import time
 import random
@@ -22,7 +22,10 @@ def record_response(word, status):
     filename = status_codes.get(status, 'error.txt')
 
     with open('tried.txt', 'a') as file:
-        file.write('{}\n'.format(word))
+        if status not in status_codes:
+            file.write('{} - {}\n'.format(word, status))
+        else:
+	    file.write('{}\n'.format(word))
 
     with open(filename, 'a') as file:
         file.write('{}\n'.format(word))
@@ -30,17 +33,21 @@ def record_response(word, status):
 
 def main():
     definitions = [x.strip() for x in load_dict() if x.strip().isalpha()]
-    three_letter_words = [x for x in definitions if len(x) == 3]
+    three_letter_words = [x for x in definitions if len(x) == 5]
+
+    print len(three_letter_words)
 
     for word in three_letter_words:
         user_page = url(word)
         headers = {'user-agent': 'instauser/0.0.1'}
         r = requests.get(user_page, headers=headers)
 
-        print(word, r.status_code)
+	if r.status_code == 404:
+        	print word
+
         record_response(word, r.status_code)
 
-        time.sleep(random.random(0.5, 1))
+        time.sleep((random.random() * 0.5) + 0.5)  # Rate Limit
 
 
 if __name__ == '__main__':
