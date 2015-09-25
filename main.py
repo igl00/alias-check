@@ -25,8 +25,8 @@ def record_response(word, status, word_len):
     """
     status_codes = {404: 'available.txt', 200: 'unavailable.txt'}
 
-    filename = os.path.join(str(word_len), status_codes.get(status, 'error.txt'))
-    catch_all = os.path.join(str(word_len), 'tried.txt')
+    filename = os.path.join(word_len, status_codes.get(status, 'error.txt'))
+    catch_all = os.path.join(word_len, 'tried.txt')
 
     with open(catch_all, 'a') as file:
         if status not in status_codes:
@@ -39,15 +39,18 @@ def record_response(word, status, word_len):
 
 
 def main(word_len=None):
+    folder_names = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine',
+                    10: 'ten', 11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen', 16: 'sixteen',
+                    17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty'}
+
     definitions = [x.strip() for x in load_dict() if x.strip().isalpha()]
     if word_len:
         n_letter_words = [x for x in definitions if len(x) == word_len]
         definitions = n_letter_words
 
-    if not word_len:
-        word_len = 'all'
-    if not os.path.exists(str(word_len)):
-        os.makedirs(str(word_len))
+    word_len = folder_names.get(word_len, 'all')
+    if not os.path.exists(word_len):
+        os.makedirs(word_len)
 
     for word in definitions:
         user_page = url(word)
