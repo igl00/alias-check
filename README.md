@@ -1,11 +1,17 @@
-# instascraper
+# alias-available
 
-Checks if words of n length are currently in use as usernames on instagram. It sends a GET request for the 
-usernames url and if it receives a 404 error it lists the username as not in use.  
-Using this method results in a reasonable number of positives as instagram has an extensive forbidden words 
-list which, if queried with a GET request, will return a 404 error.
+Batch checks for username availability on websites with open user profiles. It uses __GET__ or __HEAD__ requests, 
+depending on what the website allows, to determine if the username is currently in use. This method produces a 
+reasonable amount of false positives as most websites keep an extensive list of forbidden usernames that when 
+queried will return a __404__, which the program interprets as available.
 
 ## Usage
-The script can search for words of n length by supplying a positive integer as a command-line argument like so:  
-```sudo python main.py 5```  
-If no argument is supplied it will default to search every listing in the dictionary.
+Call the main file from the command line, providing a file of line separated words, as a command line argument. 
+The program will go through each item one-by-one checking to see if it is in use and if it gets any response, 
+other than a __200__, it will write the result to a text file. You can also provide an argument to check only 
+words on _n_ length or another to rate limit the checks.  
+  
+#### Examples
+Check every word in _words.txt_ where the word is five letters long. Pause for a second between each check:  
+```sudo python main.py words.txt 5 1```  
+
