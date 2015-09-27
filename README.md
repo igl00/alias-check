@@ -1,4 +1,4 @@
-# alias-available
+# alias-check
 
 Batch checks for username availability on websites with open user profiles. It uses __GET__ or __HEAD__ requests, 
 depending on what the website allows, to determine if the username is currently in use. This method produces a 

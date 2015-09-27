@@ -3,6 +3,8 @@
     forbidden word list.
 """
 
+# TODO: Provide named command line arguments. As rate limit can only be called with length limiting a the moment.
+
 import interfaces
 import time
 import sys
@@ -51,7 +53,7 @@ def record_response(word, responses, path):
     filename = os.path.join(path, 'candidates.txt')
 
     with open(filename, 'a') as log:
-        log.write('{0}, {1}'.format(word, ', '.join([str(n) for n in responses])))
+        log.write('{0}, {1}\n'.format(word, ', '.join([str(n) for n in responses])))
 
 
 def main(file_name, word_length=None, rate_limit=None):
@@ -82,5 +84,8 @@ if __name__ == '__main__':
     if len(sys.argv) <= 1:
         print('Please specify a file with line separated words to be checked.')
     else:
-        args = sys.argv[1:]
-        main(*args)
+        # args = sys.argv[1:]
+        # main(*args)
+        import argparse
+        parser = argparse.ArgumentParser(description='Batch check username availability on websites.')
+        parser.add_argument('--filename', dest='file_name', )
